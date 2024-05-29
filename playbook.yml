@@ -1,0 +1,54 @@
+---
+- name: Deploy App
+  hosts: all
+  become: true
+  vars:
+      deployment_path: "/home/ubuntu/app"
+      compose_path: "./docker-compose.yml"
+
+  roles:
+    - name: geerlingguy.docker
+
+  tasks:
+    - name: Update apt-get repo
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
+
+    - name: Install python3-pip
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install docker for python
+      pip:
+        name: docker
+        version: "<7.0"
+
+    - name: Install packages for python
+      pip:
+        name: requests
+        version: "2.31.0"
+
+    - name: Install compose for python
+      pip:
+        name: docker-compose
+
+    - name: Ensure deployment dir exists
+      file:
+        path: "{{ deployment_path }}"
+        state: directory
+
+    - name: Copy docker-compose.yml to the deployment directory
+      copy:
+        src: "{{ compose_path }}"
+        dest: "{{ deployment_path }}/docker-compose.yml"
+
+    - name: Start services
+      docker_compose:
+        project_src: "{{ deployment_path }}"
+
+      environment:
+        FRONTEND_IMAGE: "{{ lookup('env', 'FRONTEND_IMAGE') }}"
+        BACKEND_IMAGE: "{{ lookup('env', 'BACKEND_IMAGE') }}"
