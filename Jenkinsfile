@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Adjust version') {
             steps {
-                currentBuild.description='backendDockerTag'
+                currentBuild.description=${backendDockerTag}
             }
         }
     }
