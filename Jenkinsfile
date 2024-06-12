@@ -24,5 +24,21 @@ pipeline {
                 }
             }
         }
+        stage('Delete previous containers') {
+            steps {
+                sh '''docker rm -f backend
+                docker rm -f backend'''
+            }
+        }
+        stage('Deploy application') {
+            steps {
+                script {
+                    withEnv(["FRONTEND_IMAGE=$frontendImage:$frontendDockerTag", 
+                             "BACKEND_IMAGE=$backendImage:$backendDockerTag"]) {
+                            sh "docker-compose up -d"
+                    }
+                }
+            }
+        }
     }
 }
