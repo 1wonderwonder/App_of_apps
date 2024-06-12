@@ -16,10 +16,10 @@ pipeline {
                 checkout scm
             }
         }
-        
+
         stage('Adjust version') {
             steps {
-                currentBuild.description=${defaultValue.backendDockerTag}
+                currentBuild.description: ${defaultValue.backendDockerTag}
             }
         }
     }
