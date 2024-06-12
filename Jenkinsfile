@@ -46,8 +46,8 @@ pipeline {
                PIP_BREAK_SYSTEM_PACKAGES = "1"
             }
             steps {
-                sh "pip3 install -r requirements.txt"
-                sh "python3 -m pytest ./test/selenium/frontendTest.py"
+                sh "pip3 install -r test/selenium/requirements.txt"
+                sh "python3 -m pytest test/selenium/frontendTest.py"
             }
         }
     }
