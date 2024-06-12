@@ -1,5 +1,5 @@
-def frontendImage = "https://github.com/1wonderwonder/frontend"
-def backendImage = "https://github.com/1wonderwonder/backend"
+def frontendImage = "wonderwow/frontend"
+def backendImage = "wonderwow/backend"
 
 pipeline {
     agent {
@@ -27,7 +27,7 @@ pipeline {
         stage('Delete previous containers') {
             steps {
                 sh '''docker rm -f backend
-                docker rm -f backend'''
+                docker rm -f frontend'''
             }
         }
         stage('Deploy application') {
