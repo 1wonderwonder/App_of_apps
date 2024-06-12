@@ -5,6 +5,7 @@ pipeline {
     agent {
         label 'agent'
     }
+
     parameters {
         string(defaultValue: 'latest', name: 'backendDockerTag')
         string(defaultValue: 'latest', name: 'frontendDockerTag')
@@ -38,6 +39,15 @@ pipeline {
                             sh "docker-compose up -d"
                     }
                 }
+            }
+        }
+        stage('Selenium tests') {
+            environment {
+               PIP_BREAK_SYSTEM_PACKAGES = "1"
+            }
+            steps {
+                sh "pip3 install -r requirements.txt"
+                sh "python3 -m pytest ./test/selenium/frontendTest.py"
             }
         }
     }
