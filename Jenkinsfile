@@ -12,7 +12,10 @@ pipeline {
         string(defaultValue: 'latest', name: 'backendDockerTag')
         string(defaultValue: 'latest', name: 'frontendDockerTag')
     }
-
+    environment {
+        PIP_BREAK_SYSTEM_PACKAGES = 1
+    }
+    
     stages {
         stage('Get Code') {
             steps {
