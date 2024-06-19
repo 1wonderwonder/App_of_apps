@@ -5,7 +5,9 @@ pipeline {
     agent {
         label 'agent'
     }
-
+    tools {
+        terraform 'Terraform'
+    }
     parameters {
         string(defaultValue: 'latest', name: 'backendDockerTag')
         string(defaultValue: 'latest', name: 'frontendDockerTag')
@@ -60,7 +62,7 @@ pipeline {
                     } 
                 }
             }
-}
+        }
     }
 
     post {
